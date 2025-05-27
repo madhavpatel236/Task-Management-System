@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LoginModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -18,22 +19,22 @@ class LoginController extends Controller
         $password = $request->only('password')['password'];
         $user = LoginModel::where('Email', $email)->get();
 
+        $dbId = $user[0]['id'];
         $dbEmail = $user[0]['Email'];
         $dbPassword = $user[0]['Password'];
         $dbRole = $user[0]['Role'];
-        if ($email == $dbEmail && $password == $dbPassword) {
+        $isPasswordCorrect = Hash::check($password, $dbPassword);
+        if ($email == $dbEmail && $isPasswordCorrect) {
             if ($dbRole == 'admin') {
                 return redirect()->route('admin.index');
             } else if ($dbRole == 'manager') {
-                // return redirect()->route();
+                // dd('manager');
+                return redirect()->route('manager.index', ['id' => $dbId]);
             } else if ($dbRole == 'employee') {
                 // return redirect()->route();
             }
         } else {
             return redirect()->route('loginView');
         }
-
-        // Hash::check();
-
     }
 }

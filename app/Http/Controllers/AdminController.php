@@ -15,7 +15,7 @@ class AdminController extends Controller
     {
         $users = AdminModel::all();
         // dd($users[0]['Name']);
-        return view('AdminHome', compact('users'));
+        return view('Pages.AdminHome', compact('users'));
     }
 
     /**
@@ -58,7 +58,7 @@ class AdminController extends Controller
     {
         $user = AdminModel::findOrFail($id);
         // return $user;
-        return view('Page.EditUser', compact('user'));
+        return view('Pages.EditUser', compact('user'));
     }
 
     public function update(Request $request, string $id)
