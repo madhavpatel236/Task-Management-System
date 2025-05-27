@@ -2,11 +2,11 @@
    - Attributes: title, description, priority (low, medium, high), due date, status, assignees.
    - Managers assign tasks; Employees update status. --}}
 
+{{-- {{ $currentUser['Name']}}
+{{ $tasks}} --}}
 
-
-<form method="post" action="{{ route('manager.store') }}">
+<form method="post" action="{{ route('managers.store') }}">
     @csrf
-
     @forelse ($employees as $each)
         <label> Title: </label>
         <input name="title" id="title" class="title" />
@@ -26,7 +26,7 @@
         <span class="priority_error"> </span> <br /> <br />
 
         <label> Due date: </label>
-        <input type="date" id="due_date" class="due_date" name="due_date" />
+        <input type="date" id="due date" class="due date" name="due date" />
         <span class="due_date_error"> </span> <br /> <br />
 
         <label> Assignees: </label>
@@ -34,7 +34,8 @@
             <option value="{{ $each['Name'] }}"> {{ $each['Name'] }} </option>
         </select>
         <span class="assignees_error"> </span> <br /> <br />
-        <input value="{{ $tasks[0]['manager_name'] }}" type="hidden" />
+        {{-- <input value="{{ $tasks[0]['manager_name'] }}" type="hidden" /> --}}
+        <input name="manager_name" value="{{ $currentUser['Name'] }}" type="hidden" />
         <button class="add_task_btn" id="add_task_btn"> Add Task </button>
     @empty
         <strong> No employee found, please hire the employee first and then assign a task. </strong>
@@ -42,19 +43,19 @@
 </form>
 
 
-<table border="1">
-    <thead>
-        <td>Manager Name</td>
-        <td>Title</td>
-        <td>Description</td>
-        <td>Priority</td>
-        <td>Due date</td>
-        <td>Assignees</td>
-        <td>Status</td>
-    </thead>
+@forelse ($tasks as $each)
+    <table border="1">
+        <thead>
+            <td>Manager Name</td>
+            <td>Title</td>
+            <td>Description</td>
+            <td>Priority</td>
+            <td>Due date</td>
+            <td>Assignees</td>
+            <td>Status</td>
+        </thead>
 
-    <tbody>
-        @forelse ($tasks as $each)
+        <tbody>
             <tr>
                 <td> {{ $each['manager_name'] }} </td>
                 <td> {{ $each['title'] }} </td>
@@ -65,11 +66,10 @@
                 <td> {{ $each['status'] }} </td>
             </tr>
         @empty
-        NO Task in spending
-        @endforelse
-    </tbody>
+            <strong>
+                No Task in spending...
+            </strong>
+@endforelse
+</tbody>
 
 </table>
-
-{{-- {{ $employees }} --}}
-{{-- {{ $tasks[0] }} --}}

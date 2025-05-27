@@ -15,12 +15,21 @@ class ManagerController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
-        ManagerModel::create($request->all());
+        // dd($request->all());
+        $data = [
+            "manager_name" => $request->only('manager_name')['manager_name'],
+            "title" => $request->only('title')['title'],
+            "description" => $request->only('description')['description'],
+            "priority" => $request->only('priority')['priority'],
+            "due date" => $request->only('due_date')['due_date'],
+            "assignees" => $request->only('assignees')['assignees'],
+            "status" => "pending"
+        ];
+        ManagerModel::create($data);
         // return redirect()->route('admin.show');
     }
 
-    public function getUser($id)
+    public function getManagerHome($id)
     {
         // dd($id);
         $employees = AdminModel::where('Role', 'employee')->get();
@@ -28,15 +37,12 @@ class ManagerController extends Controller
         $name = $currentUser['Name'];
         $tasks = ManagerModel::where('manager_name', $name)->get();
         // dd($employees);
-        return view('Pages.managerHome', compact('employees', 'tasks'));
+        return view('Pages.managerHome', compact('employees', 'tasks', 'currentUser'));
     }
 
     public function show(string $id) {}
 
-    public function update(Request $request, string $id)
-    {
-
-    }
+    public function update(Request $request, string $id) {}
 
     /**
      * Remove the specified resource from storage.

@@ -9,9 +9,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::apiResource('manager', ManagerController::class);
+Route::apiResource('managers', ManagerController::class);
 
-Route::get('managers/{id}', function ($id) {
+Route::get('manager/{id}', function ($id) {
     $managerController = new ManagerController();
-    return $managerController->getUser($id);
+    return $managerController->getManagerHome($id);
 })->name('managerHome');
