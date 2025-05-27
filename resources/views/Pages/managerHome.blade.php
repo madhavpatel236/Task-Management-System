@@ -4,7 +4,7 @@
 
 
 
-<form method="post">
+<form method="post" action="{{ route('manager.store') }}">
     @csrf
 
     @forelse ($employees as $each)
@@ -34,7 +34,7 @@
             <option value="{{ $each['Name'] }}"> {{ $each['Name'] }} </option>
         </select>
         <span class="assignees_error"> </span> <br /> <br />
-
+        <input value="{{ $tasks[0]['manager_name'] }}" type="hidden" />
         <button class="add_task_btn" id="add_task_btn"> Add Task </button>
     @empty
         <strong> No employee found, please hire the employee first and then assign a task. </strong>
@@ -65,10 +65,11 @@
                 <td> {{ $each['status'] }} </td>
             </tr>
         @empty
+        NO Task in spending
         @endforelse
     </tbody>
 
 </table>
 
 {{-- {{ $employees }} --}}
-{{-- {{ $tasks }} --}}
+{{-- {{ $tasks[0] }} --}}

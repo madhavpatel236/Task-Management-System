@@ -10,3 +10,8 @@ Route::get('/user', function (Request $request) {
 
 
 Route::apiResource('manager', ManagerController::class);
+
+Route::get('managers/{id}', function ($id) {
+    $managerController = new ManagerController();
+    return $managerController->getUser($id);
+})->name('managerHome');

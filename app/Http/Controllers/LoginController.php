@@ -28,8 +28,8 @@ class LoginController extends Controller
             if ($dbRole == 'admin') {
                 return redirect()->route('admin.index');
             } else if ($dbRole == 'manager') {
-                // dd('manager');
-                return redirect()->route('manager.index', ['id' => $dbId]);
+                // return redirect()->route('manager.show', ['manager' => $dbId]);
+                return redirect()->route("managerHome", $dbId);
             } else if ($dbRole == 'employee') {
                 // return redirect()->route();
             }

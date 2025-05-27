@@ -11,35 +11,31 @@ class ManagerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $employees = AdminModel::where('Role', 'employee')->get();
-        $tasks = ManagerModel::all();
-        return view('Pages.managerHome', compact('employees', 'tasks'));
-    }
-
-    public function create()
-    {
-        //
-    }
+    public function index() {}
 
     public function store(Request $request)
     {
-        //
+        dd($request->all());
+        ManagerModel::create($request->all());
+        // return redirect()->route('admin.show');
     }
 
-    public function show(string $id)
+    public function getUser($id)
     {
-        //
+        // dd($id);
+        $employees = AdminModel::where('Role', 'employee')->get();
+        $currentUser = AdminModel::findOrFail($id);
+        $name = $currentUser['Name'];
+        $tasks = ManagerModel::where('manager_name', $name)->get();
+        // dd($employees);
+        return view('Pages.managerHome', compact('employees', 'tasks'));
     }
-    public function edit(string $id)
-    {
-        //
-    }
+
+    public function show(string $id) {}
 
     public function update(Request $request, string $id)
     {
-        //
+
     }
 
     /**
